@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>音乐播放器</title>
+	<style>
+		.poster {
+			border-radius: 50%;
+		}
+
+		.menuBar {
+			position: absolute;
+			top: 177px;
+			left: 87px;
+		}
+
+		.volumeBar {
+			position: absolute;
+			top: 217px;
+			left: 92px;
+		}
+
+		.titleBar {
+			position: absolute;
+			top: 240px;
+			left: 87px;
+			font-size: 15px;
+		}
+
+		#CDimage {
+			width: 300px;
+			height: 300px;
+			margin: 0 auto;
+			position: relative;
+		}
+
+		button {
+			text-align: center;
+			line-height: 10px;
+			padding: 0;
+		}
+
+		button:nth-child(1) {
+			margin-right: 12px;
+		}
+
+		button:nth-child(2) {
+			margin-right: 12px;
+		}
+
+	</style>
+</head>
+
+<body>
+	<div id=CDimage>
+		<img id="poster" class="poster" src="./img/background2.jpg" width="300px" height="300px" />
+		<div class="menuBar">
+			<button onclick="lastMusic()"><img src=./img/last.png width="30px" height="30px"/></button>
+			<button id=ControlBtn onclick="ControlMusic()"><img src=./img/play.png width="30px" height="30px" /></button>
+			<button onclick="nextMusic()"><img src=./img/next.png width="30px" height="30px" /></button>
+		</div>
+		<div class="volumeBar">
+			<img src="./img/volume.png" style="height: 15px; width: 15px"/>
+			<input id=volume type=range min=0 max=1 step="0.1" onchange="setVolume()" />
+		</div>
+		<div class="titleBar">
+			正在播放：<span id=title>亡灵序曲</span>
+		</div>
+	</div>
+
+	
+	
+	<audio id="audio" src="./music/亡灵序曲.mp3" preioad></audio>
+	<script>
+		function onload () {
+			console.log("你好")
+		}
+		var songs = [
+			{
+				name: '亡灵序曲',
+				file: './music/亡灵序曲.mp3',
+				poster: './img/background2.jpg'
+			},
+			{
+				name: '岁月神偷',
+				file: './music/岁月神偷.mp3',
+				poster: './img/background1.png'
+			},
+			{
+				name: '一笑倾城',
+				file: './music/一笑倾城.mp3',
+				poster: './img/background3.jpg'
+			},
+		]
+		// 音乐
+		var music = document.getElementById("audio");
+		// 音量
+		var volume = document.getElementById("volume");
+		// 标题
+		var title = document.getElementById("title");
+		// 海报
+		var poster = document.getElementById("poster");
+		
+		// 设置音量
+		function setVolume() {
+			music.volume = volume.value;
+		}
+		var ControlBtn = document.getElementById("ControlBtn");
+		
+
+		function ControlMusic() {
+			if (music.paused) {
+				music.play();
+				ControlBtn.innerHTML = " <img src = './img/pause.png' style=\''width=\'30px\' height=\'30px\'\''/> ";
+			} else {
+				music.pause();
+				ControlBtn.innerHTML = " <img src ='./img/play.png' style=\''width=\'30px\' height=\'30px\'\' /> ";
+			}
+		}
+		
+		
+		var i = 0;
+
+		function nextMusic() {
+			if (i == songs.length - 1)
+				i = 0;
+			else
+				i++;
+			music.pause();
+			music.src = songs[i].file;
+			title.innerHTML = songs[i].name;
+			poster.src = songs[i].poster;
+			music.play();
+			ControlBtn.innerHTML = " <img src ='./img/pause.png' style=\''width=\'30px\' height=\'30px\'\' /> ";
+		}
+		
+		// 下一曲
+		function lastMusic() {
+			if (i == 0)
+				i = list.length - 1;
+			else
+				i--;
+			// 暂停歌曲
+			music.pause();
+			music.src = songs[i].file;
+			title.innerHTML = songs[i].name;
+			poster.src = songs[i].poster;
+			music.play();
+			ControlBtn.innerHTML = " <img src ='./img/pause.png' style=\''width=\'30px\' height=\'30px\'\' /> ";
+		}
+	</script>
+</body>
+
+</html>
